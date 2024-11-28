@@ -108,29 +108,29 @@ app = Flask(__name__)
 #     # Mostrar la gráfica
 #     plt.show()
 
-@app.route('/', methods=['GET'])
-def grafica_prueba():
+# @app.route('/', methods=['GET'])
+# def grafica_prueba():
 
-    # Datos de prueba
-    x = [1, 2, 3, 4, 5]
-    y = [10, 20, 15, 30, 25]
+#     # Datos de prueba
+#     x = [1, 2, 3, 4, 5]
+#     y = [10, 20, 15, 30, 25]
 
-    # Crear la gráfica
-    plt.figure(figsize=(8, 5))
-    plt.plot(x, y, marker='o', linestyle='-', color='b', label='Datos de prueba')
-    plt.title('Gráfica de Prueba')
-    plt.xlabel('Eje X')
-    plt.ylabel('Eje Y')
-    plt.legend()
-    plt.grid(True)
+#     # Crear la gráfica
+#     plt.figure(figsize=(8, 5))
+#     plt.plot(x, y, marker='o', linestyle='-', color='b', label='Datos de prueba')
+#     plt.title('Gráfica de Prueba')
+#     plt.xlabel('Eje X')
+#     plt.ylabel('Eje Y')
+#     plt.legend()
+#     plt.grid(True)
 
-    # Guardar la imagen en memoria
-    buf = io.BytesIO()
-    plt.savefig(buf, format='png')
-    buf.seek(0)
+#     # Guardar la imagen en memoria
+#     buf = io.BytesIO()
+#     plt.savefig(buf, format='png')
+#     buf.seek(0)
 
-    # Devolver la imagen como respuesta
-    return Response(buf.getvalue(), mimetype='image/png')
+#     # Devolver la imagen como respuesta
+#     return Response(buf.getvalue(), mimetype='image/png')
 
 
 
@@ -149,26 +149,26 @@ def create_figure():
     axis.plot(xs, ys)
     return fig
 
-@app.route('/set', methods=['POST'])
-def grafica_prueba():
-    return "Hi"
-    # Datos de prueba
-    x = [1, 2, 3, 4, 5]
-    y = [10, 20, 15, 30, 25]
+# @app.route('/set', methods=['POST'])
+# def grafica_prueba():
+#     return "Hi"
+#     # Datos de prueba
+#     x = [1, 2, 3, 4, 5]
+#     y = [10, 20, 15, 30, 25]
 
-    # Crear la gráfica
-    plt.figure(figsize=(8, 5))
-    plt.plot(x, y, marker='o', linestyle='-', color='b', label='Datos de prueba')
-    plt.title('Gráfica de Prueba')
-    plt.xlabel('Eje X')
-    plt.ylabel('Eje Y')
-    plt.legend()
-    plt.grid(True)
+#     # Crear la gráfica
+#     plt.figure(figsize=(8, 5))
+#     plt.plot(x, y, marker='o', linestyle='-', color='b', label='Datos de prueba')
+#     plt.title('Gráfica de Prueba')
+#     plt.xlabel('Eje X')
+#     plt.ylabel('Eje Y')
+#     plt.legend()
+#     plt.grid(True)
 
-    # Guardar la imagen en memoria
-    buf = io.BytesIO()
-    plt.savefig(buf, format='png')
-    buf.seek(0)
+#     # Guardar la imagen en memoria
+#     buf = io.BytesIO()
+#     plt.savefig(buf, format='png')
+#     buf.seek(0)
 
-    # Devolver la imagen como respuesta
-    return Response(buf.getvalue(), mimetype='image/png')
+#     # Devolver la imagen como respuesta
+#     return Response(buf.getvalue(), mimetype='image/png')
