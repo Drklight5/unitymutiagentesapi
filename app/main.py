@@ -8,9 +8,9 @@ import json
  
 app = Flask(__name__)
  
-@app.route("/")
-def home_view():
-        return "<h1>Welcome to Geeks for Geeks</h1>"
+# @app.route("/")
+# def home_view():
+#         return "<h1>Welcome to Geeks for Geeks</h1>"
 
 
 
@@ -106,6 +106,7 @@ def home_view():
 
 @app.route('/', methods=['GET'])
 def grafica_prueba():
+
     # Datos de prueba
     x = [1, 2, 3, 4, 5]
     y = [10, 20, 15, 30, 25]
@@ -127,3 +128,27 @@ def grafica_prueba():
     # Devolver la imagen como respuesta
     return Response(buf.getvalue(), mimetype='image/png')
 
+
+@app.route('/set', methods=['POST'])
+def grafica_prueba():
+    return "Hi"
+    # Datos de prueba
+    x = [1, 2, 3, 4, 5]
+    y = [10, 20, 15, 30, 25]
+
+    # Crear la gráfica
+    plt.figure(figsize=(8, 5))
+    plt.plot(x, y, marker='o', linestyle='-', color='b', label='Datos de prueba')
+    plt.title('Gráfica de Prueba')
+    plt.xlabel('Eje X')
+    plt.ylabel('Eje Y')
+    plt.legend()
+    plt.grid(True)
+
+    # Guardar la imagen en memoria
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+
+    # Devolver la imagen como respuesta
+    return Response(buf.getvalue(), mimetype='image/png')
