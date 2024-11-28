@@ -4,6 +4,8 @@ import random
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.dates import DateFormatter
 from matplotlib.figure import Figure
+from datetime import datetime
+
 import io
 
 import base64
