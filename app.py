@@ -80,5 +80,10 @@ def grafica_prueba():
     # Devolver la imagen como respuesta
     return Response(buf.getvalue(), mimetype='image/png')
 
+@app.route('/', methods=['GET'])
+def saludo():
+    return "Hola", 200
+
+
 if __name__ == '__main__':
     app.run(debug=True)
