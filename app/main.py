@@ -1,6 +1,10 @@
 from flask import Flask, Response
 import matplotlib.pyplot as plt
+import random
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
 import io
+
 import base64
 import mysql.connector
 import json
@@ -128,6 +132,22 @@ def grafica_prueba():
     # Devolver la imagen como respuesta
     return Response(buf.getvalue(), mimetype='image/png')
 
+
+
+@app.route('/plot.png')
+def plot_png():
+    fig = create_figure()
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
+
+def create_figure():
+    fig = Figure()
+    axis = fig.add_subplot(1, 1, 1)
+    xs = range(100)
+    ys = [random.randint(1, 50) for x in xs]
+    axis.plot(xs, ys)
+    return fig
 
 @app.route('/set', methods=['POST'])
 def grafica_prueba():
