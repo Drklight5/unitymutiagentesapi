@@ -2,6 +2,7 @@ from flask import Flask, Response
 import matplotlib.pyplot as plt
 import random
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.dates import DateFormatter
 from matplotlib.figure import Figure
 import io
 
@@ -14,7 +15,7 @@ app = Flask(__name__)
  
 @app.route("/")
 def home_view():
-        return "<h1>Welcome to Geeks for Geeks</h1>"
+        return "<h1>Unity Multiagentes</h1>"
 
 
 
@@ -68,45 +69,57 @@ def home_view():
     
 #     except Exception as e:
 #         return jsonify({"error": str(e)}), 500
+@app.route('/grafica2', methods=['GET'])
+def generar_grafica():
+    # Leer los datos desde el archivo JSON
+    with open('data.json', 'r') as file:
+        data = json.load(file)
 
-# @app.route('/grafica2', methods=['GET'])
-# def generar_grafica():
-#     with open('data.json', 'r') as file:
-#         data = json.load(file)
+    # Extraer los datos
+    timestamps = [datetime.fromisoformat(point["timestamp"]) for point in data["points"]]
+    positions_x = [point["position"]["x"] for point in data["points"]]
+    positions_y = [point["position"]["y"] for point in data["points"]]
+    positions_z = [point["position"]["z"] for point in data["points"]]
+    speeds = [point["speed"] for point in data["points"]]
 
-#     # Extraer los datos
-#     timestamps = [datetime.fromisoformat(point["timestamp"]) for point in data["points"]]
-#     positions_x = [point["position"]["x"] for point in data["points"]]
-#     positions_y = [point["position"]["y"] for point in data["points"]]
-#     positions_z = [point["position"]["z"] for point in data["points"]]
-#     speeds = [point["speed"] for point in data["points"]]
+    # Crear la figura y los ejes
+    fig, ax1 = plt.subplots(figsize=(12, 6))
 
-#     # Crear la figura y los ejes
-#     fig, ax1 = plt.subplots(figsize=(12, 6))
+    # Gráfica de posiciones
+    ax1.plot(timestamps, positions_x, label='Posición X', color='blue')
+    ax1.plot(timestamps, positions_y, label='Posición Y', color='green')
+    ax1.plot(timestamps, positions_z, label='Posición Z', color='red')
+    ax1.set_xlabel('Tiempo')
+    ax1.set_ylabel('Posición', color='black')
+    ax1.tick_params(axis='y')
+    ax1.legend(loc='upper left')
 
-#     # Gráfica de posiciones
-#     ax1.plot(timestamps, positions_x, label='Posición X', color='blue')
-#     ax1.plot(timestamps, positions_y, label='Posición Y', color='green')
-#     ax1.plot(timestamps, positions_z, label='Posición Z', color='red')
-#     ax1.set_xlabel('Tiempo')
-#     ax1.set_ylabel('Posición', color='black')
-#     ax1.tick_params(axis='y')
-#     ax1.legend(loc='upper left')
+    # Eje secundario para velocidad
+    ax2 = ax1.twinx()
+    ax2.plot(timestamps, speeds, label='Velocidad', color='orange', linestyle='dashed')
+    ax2.set_ylabel('Velocidad', color='orange')
+    ax2.tick_params(axis='y', labelcolor='orange')
+    ax2.legend(loc='upper right')
 
-#     # Eje secundario para velocidad
-#     ax2 = ax1.twinx()
-#     ax2.plot(timestamps, speeds, label='Velocidad', color='orange', linestyle='dashed')
-#     ax2.set_ylabel('Velocidad', color='orange')
-#     ax2.tick_params(axis='y', labelcolor='orange')
-#     ax2.legend(loc='upper right')
+    # Formateo de fechas
+    date_format = DateFormatter('%Y-%m-%d %H:%M:%S')
+    ax1.xaxis.set_major_formatter(date_format)
+    fig.autofmt_xdate()
 
-#     # Ajustes finales
-#     plt.title(f"Visualización de {data['tractorName']}")
-#     plt.grid(True)
-#     plt.tight_layout()
+    # Ajustes finales
+    plt.title(f"Visualización de {data['tractorName']}")
+    plt.grid(True)
+    plt.tight_layout()
 
-#     # Mostrar la gráfica
-#     plt.show()
+    # Guardar la gráfica en un buffer de memoria
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    plt.close(fig)  # Cerrar la figura para liberar memoria
+
+    # Devolver la imagen como respuesta HTTP
+    return Response(buffer, mimetype='image/png')
+
 
 # @app.route('/', methods=['GET'])
 # def grafica_prueba():
