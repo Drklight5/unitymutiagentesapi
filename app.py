@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, Response
 import matplotlib.pyplot as plt
 import io
 import base64
-import mysql.connector
+# import mysql.connector
 
 app = Flask(__name__)
 
