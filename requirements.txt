@@ -1,3 +1,4 @@
 Flask
 matplotlib
 mysql-connector-python
+gunicorn
